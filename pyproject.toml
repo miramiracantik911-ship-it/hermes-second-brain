@@ -1,0 +1,20 @@
+[project]
+name = "hermes-second-brain"
+version = "0.1.0"
+description = "Hermes Personal AI Hub with Obsidian Second Brain as the first capability."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+# Required only to run the MCP server (second_brain.mcp_server) for Hermes.
+mcp = [
+  "mcp>=1.2",
+]
+dev = [
+  "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+

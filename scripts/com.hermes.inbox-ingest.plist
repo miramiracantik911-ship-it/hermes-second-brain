@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  launchd job that runs the inbox ingest every 5 minutes on the Mac mini.
+
+  Setup:
+    1. Edit the paths in scripts/mac_inbox_ingest.sh.
+    2. Replace USERNAME below with your macOS short username, and fix the
+       ProgramArguments path to where the repo lives.
+    3. cp scripts/com.hermes.inbox-ingest.plist ~/Library/LaunchAgents/
+    4. launchctl load -w ~/Library/LaunchAgents/com.hermes.inbox-ingest.plist
+    To stop:  launchctl unload -w ~/Library/LaunchAgents/com.hermes.inbox-ingest.plist
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.hermes.inbox-ingest</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/USERNAME/Projects/hermes-second-brain/scripts/mac_inbox_ingest.sh</string>
+  </array>
+
+  <key>StartInterval</key>
+  <integer>300</integer>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/USERNAME/Library/Logs/hermes-inbox-ingest.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/USERNAME/Library/Logs/hermes-inbox-ingest.log</string>
+</dict>
+</plist>
