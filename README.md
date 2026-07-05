@@ -2,7 +2,15 @@
 
 Hermes Second Brain adalah fondasi personal AI hub berbasis Hermes, dengan Obsidian Second Brain sebagai kapabilitas pertama: capture, search, dan organize catatan Obsidian dari Telegram lewat Hermes Agent (MCP).
 
-Status saat ini: **Phase 1A - Hermes Foundation Local**.
+Status saat ini: **Live — Phase 3 selesai.** Berjalan lokal di satu mesin (Mac mini) end-to-end: capture, search, dan organize (move/update/undo) langsung ke vault Obsidian, dikendalikan dari Telegram.
+
+## Fitur
+
+- **Capture** — simpan catatan/link ke Inbox sebagai Markdown (atomik, anti-dobel, reversible).
+- **Search** — full-text search seluruh vault (SQLite FTS5); note sensitif dicari via judul/tag saja, body tidak diindeks.
+- **Organize** — `move_note` (pindah antar folder PARA) & `update_note` (append/replace), atomik + hash-guarded.
+- **Undo** — batalkan capture/move/update terakhir lewat `operation_id`.
+- **Aman** — capability registry per-tool, audit log, deteksi note sensitif (`#private`/kata kunci rahasia), path-safe.
 
 ## Prasyarat
 
@@ -65,17 +73,17 @@ is the stdio MCP server that Hermes connects to (Hermes uses MCP, not REST). Bot
 wrap the same dispatcher with capability checks + audit. See `docs/API.md` and
 `docs/GO_LIVE.md`.
 
-## Current Phase Output
+## MCP tools (live)
 
-- Config loader and validation.
-- SQLite migration foundation.
-- Fake Obsidian vault fixture.
-- Read-only vault audit module.
-- Capability Registry with safe default capabilities.
-- Local tool dispatcher with `health_check`, `job_status`, and `sync_status`.
-- Local-only HTTP Core API (`second_brain.server`) with bearer-token auth.
-- Tool-call audit logging.
-- Phase documentation for programmer and AI handoff.
+Terdaftar di Hermes sebagai MCP stdio lokal (`second_brain.mcp_server`):
+
+- `health_check`, `job_status`, `sync_status`
+- `capture_note` — tulis catatan ke Inbox
+- `search_vault`, `get_note` — cari & baca catatan
+- `move_note`, `update_note` — pindah & edit catatan
+- `undo` — batalkan operasi terakhir
+
+Bangun/refresh index pencarian kapan saja: `PYTHONPATH=src python3 -m second_brain.reindex`.
 
 ## Read Next
 
